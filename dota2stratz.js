@@ -14,18 +14,16 @@ axiosInstance.interceptors.request.use(
     },
     (error) => Promise.reject(error)
 );
-
-async function getPlayerMatches(playerId) {
+async function getPlayerStats(playerId) {
     const response = await axiosInstance.get(`/player/${playerId}`);
     return response.data;
 }
-
-async function getMatchDetails(matchId) {
-    const response = await axiosInstance.get(`/match/${matchId}`);
+async function getMatchDetails(playerId) {
+    const response = await axiosInstance.get(`/player/${playerId}/matches`);
     return response.data;
 }
 
 module.exports = {
-    getPlayerMatches,
     getMatchDetails,
+    getPlayerStats,
 };
