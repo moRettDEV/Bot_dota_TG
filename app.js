@@ -47,9 +47,13 @@ bot.command('matches', async (ctx) => {
             `\n------------------------------------------------\n\n`
 
         for (let i = 0; i < matches.length; i++) {
+            let matchTime = matches[i].endDateTime - matches[i].startDateTime
+            matchTimeMin = Math.floor(matchTime / 60)
+            matchTimeSec = matchTime % 60
+            matchTimeSec = matchTimeSec < 10 ? "0" + matchTimeSec : matchTimeSec;
             let statsMatch =
                 `ID Матча: ${matches[i].players[0].matchId}\n` +
-                // `Длительность матча: ${matches.players[0].}\n` +
+                `Длительность матча: ${matchTimeMin}:${matchTimeSec} мин\n` +
                 `Герой: ${heroes[matches[i].players[0].heroId].localized_name}\n` +
                 `Уровень: ${matches[i].players[0].level}\n` +
                 `Золото: ${matches[i].players[0].goldSpent}\n` +
