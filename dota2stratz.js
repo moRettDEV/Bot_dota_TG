@@ -14,10 +14,27 @@ axiosInstance.interceptors.request.use(
     },
     (error) => Promise.reject(error)
 );
+
+/**
+ * Получаем детали матчей для игрока с заданным ID
+ *
+ * @param playerId Индификатор пользователя steamID3
+ *
+ * @returns {Promise<Object>}
+ *
+ * @example playerId = 234997725
+ */
 async function getPlayerStats(playerId) {
     const response = await axiosInstance.get(`/player/${playerId}`);
     return response.data;
 }
+
+/**
+ *
+ * @param playerId Индификатор пользователя steamID3
+ * @returns {Promise<Object>}
+ * @example playerId = 234997725
+ */
 async function getMatchDetails(playerId) {
     const response = await axiosInstance.get(`/player/${playerId}/matches`);
     return response.data;
