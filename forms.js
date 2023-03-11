@@ -2,7 +2,7 @@ const heroes = require("./heroes.json");
 module.exports = {
 
     /**
-     * Формируем Header сообщения со статистикой матчей
+     * Формируем общую статистику пользователя
      *
      * @param {Object} stats Ответ от функции getPlayerStats
      * @param {string} stats.identity.name Имя пользователя
@@ -11,7 +11,7 @@ module.exports = {
      *
      * @returns {string}
      */
-    getGeneralStats: (stats) => {
+    getGeneralStats(stats){
         let message = ''
 
         message += `*Статистика игрока ${stats.identity.name}:*\n`
@@ -29,7 +29,7 @@ module.exports = {
      * @param {Object} matches[i] Запрос endDateTime, startDateTime
      * @param {number} player.matchId Матч ID
      * @param {number} player.level Уровень героя
-     * @param {number} player.heroId Уровень героя
+     * @param {number} player.heroId ID героя
      * @param {number} player.goldSpent Золото за игру
      * @param {number} player.heroDamage Урон по героям
      * @param {number} player.towerDamage Урон по башням
@@ -41,12 +41,12 @@ module.exports = {
      *
      * @returns {string}
      */
-    getMatchesBody: (player, matches) => {
+    getMatchesBody(player, matches){
         let message = ''
-        let lane = ['Керри','Мид','Саппорт']
+        let lane = ['','Керри','Мид','Саппорт']
 
         message += `ID Матча: ${player.matchId}\n`
-        message += `Длительность матча: ${this.getTimeMatch(matches[i])} мин\n`
+        message += `Длительность матча: ${this.getTimeMatch(matches)} мин\n`
         message += `Герой: ${heroes[player.heroId].localized_name}\n`
         message += `Уровень: ${player.level}\n`
         message += `Золото: ${player.goldSpent}\n`
@@ -54,9 +54,7 @@ module.exports = {
         message += `Урон по башням: ${player.towerDamage}\n`
         message += `Линия: ${lane[player.lane]}\n`
         message += `Результат: ${player.isVictory ? '🟢Победа' : '🔴Поражение'}\n`
-        message += `Убийств: ${player.numKills}\n`
-        message += `Смертей: ${player.numDeaths}\n`
-        message += `Помощей: ${player.numAssists}\n`
+        message += `Убийств: ${player.numKills}, Смертей: ${player.numDeaths}, Помощи: ${player.numAssists}\n`
         message += `\n------------------------------------\n\n`
 
         return message
@@ -66,22 +64,23 @@ module.exports = {
      *
      * Получаем длительность матча
      *
-     * @param {Object} matches
-     * @param {number} matches[i].endDateTime
-     * @param {number} matches[i].startDateTime
+     * @param {Object} matches получаем всю информацию о матче
+     * @param {number} matches.endDateTime Получаем время конца матча
+     * @param {number} matches.startDateTime Получаем время начала матча
      *
      * @return {string}
      *
      */
-    getTimeMatch: (matches) => {
+    getTimeMatch(matches){
 
-        let matchTime = matches[i].endDateTime - matches[i].startDateTime;
+        let matchTime = matches.endDateTime - matches.startDateTime;
 
         let matchTimeMin = Math.floor(matchTime / 60);
         let matchTimeSec = matchTime % 60;
         matchTimeSec = matchTimeSec < 10 ? '0' + matchTimeSec : matchTimeSec;
 
         return `${matchTimeMin}:${matchTimeSec}`
+
     }
 
 }

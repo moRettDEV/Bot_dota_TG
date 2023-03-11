@@ -30,6 +30,7 @@ async function getPlayerStats(playerId) {
 }
 
 /**
+ * Получаем информацию о матче
  *
  * @param playerId Индификатор пользователя steamID3
  * @returns {Promise<Object>}

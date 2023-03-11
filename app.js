@@ -26,7 +26,6 @@ bot.command('matches', (ctx) => {
     console.log(users.session.matches)
 });
 
-//stats
 bot.on('text', async (ctx) => {
 
     if (users.session.stats[ctx.message.chat.id]) {
@@ -46,17 +45,7 @@ bot.on('text', async (ctx) => {
 
         users.session.stats[ctx.message.chat.id] = false;
 
-    }
-
-});
-
-//matches
-bot.on('text', async (ctx) => {
-
-    if (users.session.matches[ctx.message.chat.id]) {
-
-        console.log('Проверка сессии матчей')
-        console.log(users.session.matches[ctx.message.chat.id])
+    } else if (users.session.matches[ctx.message.chat.id]) {
 
         try {
 
@@ -65,24 +54,17 @@ bot.on('text', async (ctx) => {
 
             let message = forms.getGeneralStats(stats)
 
-            console.log("Перед циклом")
-
-            for (let i = 0; i < matches.length; i++) {
-
-                console.log("В цикле циклом")
+            for (let i = 0; i < 4; i++) {
 
                 message += forms.getMatchesBody(matches[i].players[0], matches[i])
 
             }
 
-            console.log("после цикла")
-
-            // Отправляем сообщение с информацией о матчах
             await ctx.replyWithMarkdown(message);
 
         } catch (e) {
 
-            console.error(error);
+            console.error(e);
             await ctx.reply('Произошла ошибка. Проверьте правильность введенного ID игрока и попробуйте еще раз.');
 
         }
@@ -90,6 +72,7 @@ bot.on('text', async (ctx) => {
         users.session.matches[ctx.message.chat.id] = false
 
     }
+
 
 });
 
