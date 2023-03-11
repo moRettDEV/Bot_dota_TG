@@ -6,7 +6,8 @@ const config = require('./config.json');
 const bot = new Telegraf(config.telegramToken);
 
 bot.start((ctx) => {
-    ctx.reply(`Привет ${ctx.from.first_name}! Я бот для просмотра статистики Dota 2. Введите /matches для получения информации о последних матчах игрока или /stats для получения общей статистики игрока.`);
+    ctx.reply(forms.getStarted(ctx));
+    console.log(forms.getStarted(ctx))
 });
 let users = {
     session: {
@@ -17,13 +18,19 @@ let users = {
 }
 
 bot.command('stats', (ctx) => {
+
     ctx.reply('Введите ID игрока:');
+
     users.session.stats[ctx.message.chat.id] = true;
+
 });
+
 bot.command('matches', (ctx) => {
+
     ctx.reply('Введите ID игрока:');
+
     users.session.matches[ctx.message.chat.id] = true;
-    console.log(users.session.matches)
+
 });
 
 bot.on('text', async (ctx) => {
@@ -72,7 +79,6 @@ bot.on('text', async (ctx) => {
         users.session.matches[ctx.message.chat.id] = false
 
     }
-
 
 });
 

@@ -81,6 +81,29 @@ module.exports = {
 
         return `${matchTimeMin}:${matchTimeSec}`
 
+    },
+
+
+    /**
+     * Генирируем сообщение для пользователя
+     *
+     * @param {Object} ctx Ответ от пользователя
+     * @param {string} ctx.from.first_name Имя пользователя
+     *
+     * @return {string}
+     */
+    getStarted(ctx){
+
+        let message = ''
+
+        message += `Привет ${ctx.from.first_name}!\n`
+        message += `Я бот для просмотра статистики Dota 2.\n`
+        message += `Вы можете использовать комады:\n`
+        message += `/matches - получение информации о последних 4 матчах игрока\n`
+        message += `/stats - получения общей статистики игрока.\n`
+
+        return message
+
     }
 
 }
